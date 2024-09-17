@@ -2,5 +2,8 @@
 
 public sealed record UpdateDeploymentImageCommand(
     string ContainerLabel,
-    string ContainerPath
+    string ContainerPath,
+    int InstallationId,
+    string RepoName,
+    string RepoOwner
 );
