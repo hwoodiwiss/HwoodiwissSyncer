@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <AnalysisMode>Recommended</AnalysisMode>
+    <Copyright>Hugo Woodiwiss (c) 2024-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
+    <Description>Syncs pods in a kubernetes cluster based on a configured set of GitHub repository package registries.</Description>
+    <Deterministic>true</Deterministic>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <Nullable>enable</Nullable>
+    <RepositoryType>git</RepositoryType>
+    <TargetFramework>net9.0</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+  </PropertyGroup>
+</Project>

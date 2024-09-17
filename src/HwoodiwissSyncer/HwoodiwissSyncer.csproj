@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>HwoodiwissSyncer</RootNamespace>
+    <IsAotCompatible>true</IsAotCompatible>
+    <NoWarn>$(NoWarn);CA1716</NoWarn>
+    <WarningsNotAsErrors>IL2075;$(WarningsNotAsErrors)</WarningsNotAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ArgumentativeFilters" />
+    <PackageReference Include="Dunet" />
+    <PackageReference Include="KubernetesClient.Aot" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    <PackageReference Include="Microsoft.Extensions.Telemetry" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+    <PackageReference Include="OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    <PackageReference Include="OpenTelemetry.Resources.Container" />
+    <PackageReference Include="OpenTelemetry.Resources.Host" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HwoodiwissSyncer.UI\HwoodiwissSyncer.UI.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <ILLinkTreatWarningsAsErrors>false</ILLinkTreatWarningsAsErrors>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)</OpenApiDocumentsDirectory>
+    <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+    <PublishAot>true</PublishAot>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <UserSecretsId>HwoodiwissSyncer</UserSecretsId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ContainerRegistry>ghcr.io</ContainerRegistry>
+    <ContainerRepository>hwoodiwiss/hwoodiwiss-syncer</ContainerRepository>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(GenerateAotMetadata)' == 'True' ">
+    <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+    <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+  </PropertyGroup>
+</Project>
