@@ -28,7 +28,7 @@ public static partial class GitHubWebhookEndpoints
                     ["GithubEvent"] = githubEvent,
                 });
 
-                if (githubConfiguration.Value.EnableRequestLogging || true)
+                if (githubConfiguration.Value.EnableRequestLogging)
                 {
                     var githubEventBody = await GetRequestBodyText(request.Body);
                     Log.ReceivedGithubEvent(logger, githubEventBody);
