@@ -7,13 +7,13 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureKubernetesServices(this IServiceCollection services, IConfigurationRoot configurationRoot)
     {
-        services.AddSingleton(GetKubernetesConfig());
+        services.AddSingleton(_ => GetKubernetesConfig());
         services.AddScoped<IKubernetes, k8s.Kubernetes>(sp => new k8s.Kubernetes(sp.GetRequiredService<KubernetesClientConfiguration>()));
         services.AddScoped<IKubernetesService, KubernetesService>();
 
         return services;
     }
-    
+
     private static KubernetesClientConfiguration GetKubernetesConfig()
     {
         if (KubernetesClientConfiguration.IsInCluster())
