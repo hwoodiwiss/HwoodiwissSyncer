@@ -2,5 +2,5 @@
 
 public interface IGitHubService
 {
-    Task CreatePullRequestComment(string repoOwner, string repoName, int pullRequestNumber, int installationId, string commentBody);
+    Task CreateIssueComment(string repoOwner, string repoName, int pullRequestNumber, int installationId, string commentBody);
 }

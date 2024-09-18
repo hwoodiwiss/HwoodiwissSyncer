@@ -7,9 +7,9 @@ namespace HwoodiwissSyncer.Features.GitHub.HttpClients;
 
 public sealed partial class GitHubClient(HttpClient httpClient, IGitHubAppAuthProvider authProvider, IMemoryCache cache, ILogger<GitHubClient> logger) : IGitHubClient
 {
-    public async Task<Result<Unit>> CreatePullRequestReview(string repoOwner, string repoName, int pullRequestNumber, int installationId, SubmitReviewRequest reviewRequest)
+    public async Task<Result<Unit>> CreateIssueComment(string repoOwner, string repoName, int issueNumber, int installationId, string commentBody)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"/repos/{repoOwner}/{repoName}/pulls/{pullRequestNumber}/reviews");
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"/repos/{repoOwner}/{repoName}/issues/{issueNumber}/comments");
         request.Headers.Accept.Add(new("application/vnd.github+json"));
         request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
 
@@ -22,12 +22,15 @@ public sealed partial class GitHubClient(HttpClient httpClient, IGitHubAppAuthPr
             [repoName]);
 
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", installationToken);
-        request.Content = JsonContent.Create(reviewRequest, GitHubClientJsonSerializerContext.Default.SubmitReviewRequest);
+        request.Content = JsonContent.Create(new CreateIssueCommentRequest
+        {
+            Body = commentBody,
+        }, GitHubClientJsonSerializerContext.Default.CreateIssueCommentRequest);
         using var response = await httpClient.SendAsync(request);
 
         if (!response.IsSuccessStatusCode)
         {
-            Log.FailedToApprovePullRequest(logger, pullRequestNumber, repoOwner, repoName, installationId, (int)response.StatusCode);
+            Log.FailedToCreateIssueComment(logger, issueNumber, repoOwner, repoName, installationId, (int)response.StatusCode);
             return new Problem.Reason("Failed to approve pull request");
         }
 
@@ -108,7 +111,7 @@ public sealed partial class GitHubClient(HttpClient httpClient, IGitHubAppAuthPr
         [LoggerMessage(LogLevel.Error, "Installation token request for {InstallationId} failed")]
         public static partial void InstallationsTokenRequestFailedExceptional(ILogger logger, long installationId, Exception ex);
 
-        [LoggerMessage(LogLevel.Error, "Failed to approve pull request #{PullRequest} in {RepoOrg}/{RepoName} for {InstallationId} with Status {StatusCode}")]
-        public static partial void FailedToApprovePullRequest(ILogger logger, int pullRequest, string repoOrg, string repoName, int installationId, int statusCode);
+        [LoggerMessage(LogLevel.Error, "Failed to create issue comment #{PullRequest} in {RepoOrg}/{RepoName} for {InstallationId} with Status {StatusCode}")]
+        public static partial void FailedToCreateIssueComment(ILogger logger, int pullRequest, string repoOrg, string repoName, int installationId, int statusCode);
     }
 }

@@ -6,7 +6,7 @@ namespace HwoodiwissSyncer.Features.GitHub.Services;
 public sealed partial class GitHubService(IGitHubClient githubClient, ActivitySource activitySource, ILogger<GitHubService> logger) : IGitHubService
 {
 
-    public async Task CreatePullRequestComment(string repoOwner, string repoName, int pullRequestNumber, int installationId, string commentBody)
+    public async Task CreateIssueComment(string repoOwner, string repoName, int pullRequestNumber, int installationId, string commentBody)
     {
         using var activity = activitySource.StartActivity();
         activity?.SetTag("pullrequest.number", pullRequestNumber);
@@ -14,12 +14,7 @@ public sealed partial class GitHubService(IGitHubClient githubClient, ActivitySo
 
         try
         {
-            await githubClient.CreatePullRequestReview(repoOwner, repoName, pullRequestNumber, installationId,
-                new SubmitReviewRequest
-                {
-                    Body = commentBody,
-                    Event = SubmitReviewEvent.Comment,
-                });
+            await githubClient.CreateIssueComment(repoOwner, repoName, pullRequestNumber, installationId, commentBody);
         }
         catch (Exception error)
         {
