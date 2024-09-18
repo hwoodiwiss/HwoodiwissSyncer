@@ -4,5 +4,5 @@ namespace HwoodiwissSyncer.Features.GitHub.HttpClients;
 
 [JsonSerializable(typeof(InstallationTokenRequest))]
 [JsonSerializable(typeof(InstallationTokenResponse))]
-[JsonSerializable(typeof(SubmitReviewRequest))]
+[JsonSerializable(typeof(CreateIssueCommentRequest))]
 public sealed partial class GitHubClientJsonSerializerContext : JsonSerializerContext;

@@ -2,5 +2,5 @@
 
 public interface IGitHubClient
 {
-    Task<Result<Unit>> CreatePullRequestReview(string repoOwner, string repoName, int pullRequestNumber, int installationId, SubmitReviewRequest reviewRequest);
+    Task<Result<Unit>> CreateIssueComment(string repoOwner, string repoName, int issueNumber, int installationId, string commentBody);
 }

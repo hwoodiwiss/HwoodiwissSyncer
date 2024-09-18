@@ -52,12 +52,12 @@ public sealed partial class PackagePublishedHandler(
             string prNumberString = match.Groups["prnumber"].Value;
             int prNumber = int.Parse(prNumberString);
 
-            await gitHubService.CreatePullRequestComment(
+            await gitHubService.CreateIssueComment(
                 command.RepoOwner,
                 command.RepoName,
                 prNumber,
                 command.InstallationId,
-                $"Updated deployment to {command.ContainerPath}:{command.ContainerLabel}"
+                $"## Deployed\nUpdated deployment to {command.ContainerPath}:{command.ContainerLabel}"
             );
         }
 
