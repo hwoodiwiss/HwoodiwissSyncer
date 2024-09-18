@@ -19,7 +19,10 @@ public class UpdateDeploymentImageCommandMapper : IMapper<RegistryPackage.Publis
 
         return new UpdateDeploymentImageCommand(
             tagName,
-            source.RegistryPackage.PackageVersion.PackageUrl.Split(':').First()
+            source.RegistryPackage.PackageVersion.PackageUrl.Split(':').First(),
+            source.Installation.Id,
+            source.Repository.Name,
+            source.Repository.Owner.Login
         );
     }
 }

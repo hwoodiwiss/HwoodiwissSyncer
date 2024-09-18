@@ -2,5 +2,5 @@
 
 public interface IGitHubService
 {
-    Task ApprovePullRequestAsync(string repoOwner, string repoName, int pullRequestNumber, int installationId);
+    Task CreatePullRequestComment(string repoOwner, string repoName, int pullRequestNumber, int installationId, string commentBody);
 }

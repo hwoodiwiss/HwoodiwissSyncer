@@ -21,7 +21,7 @@ public sealed partial class KubernetesService(IKubernetes kubeClient, ILogger<Ku
             {
                 await kubeClient.AppsV1.PatchNamespacedDeploymentAsync(
                     new V1Patch(CreateDeploymentImagePatchConfig(deploymentName, imagePath, imageVersion),
-                        V1Patch.PatchType.MergePatch), deploymentName,
+                        V1Patch.PatchType.StrategicMergePatch), deploymentName,
                     nameSpace);
             }
 
