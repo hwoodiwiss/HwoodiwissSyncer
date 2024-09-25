@@ -10,6 +10,7 @@ using HwoodiwissSyncer.Features.GitHub.HttpClients;
 using HwoodiwissSyncer.Features.GitHub.Mappers;
 using HwoodiwissSyncer.Features.GitHub.Services;
 using HwoodiwissSyncer.Handlers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HwoodiwissSyncer.Features.GitHub.Extension;
 
@@ -19,7 +20,7 @@ public static class IServiceCollectionExtensions
     {
         services.Configure<GitHubConfiguration>(configuration.GetSection(GitHubConfiguration.SectionName));
         services.Configure<DeploymentConfiguration>(configuration);
-        
+
         services.PostConfigure<GitHubConfiguration>(config =>
         {
             var approxDecodedLength = config.AppPrivateKey.Length / 4 * 3; // Base64 is roughly 4 bytes per 3 chars
@@ -29,7 +30,7 @@ public static class IServiceCollectionExtensions
                 config.AppPrivateKey = Encoding.UTF8.GetString(buffer[..bytesWritten]);
             }
         });
-        
+
         services.AddSingleton<IGitHubSignatureValidator, GitHubSignatureValidator>();
         services.AddSingleton<IGitHubAppAuthProvider, GitHubAppAuthProvider>();
         services.AddScoped<IGitHubService, GitHubService>();
@@ -43,24 +44,25 @@ public static class IServiceCollectionExtensions
 
         return services;
     }
-    
+
     private static IServiceCollection AddGitHubWebhookHandlers(this IServiceCollection services)
     {
-        services.AddGitHubEventHandler<PackagePublishedHandler, RegistryPackage.Published, UpdateDeploymentImageCommand, UpdateDeploymentImageCommandMapper>();
+        services.AddGitHubEventHandler<UpdateDeploymentImageHandler, RegistryPackage.Published, UpdateDeploymentImageCommand, UpdateDeploymentImageCommandMapper>();
         return services;
     }
-    
+
     private static IServiceCollection AddGitHubEventHandler<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler,
         TEvent,
         TCommand,
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TMapper>(this IServiceCollection services)
         where TEvent : GitHubWebhookEvent
-        where THandler : GithubWebhookRequestHandler<TEvent, TCommand>
+        where THandler : class, IRequestHandler<TCommand>
         where TMapper : class, IMapper<TEvent, TCommand>
     {
         services.AddSingleton<IMapper<TEvent, TCommand>, TMapper>();
-        services.AddKeyedScoped<IRequestHandler<GitHubWebhookEvent>, THandler>(typeof(TEvent));
+        services.AddKeyedScoped<IRequestHandler<GitHubWebhookEvent>, GithubWebhookRequestAdapter<TEvent, TCommand>>(typeof(TEvent));
+        services.TryAddScoped<IRequestHandler<TCommand>, THandler>();
         return services;
     }
 }
