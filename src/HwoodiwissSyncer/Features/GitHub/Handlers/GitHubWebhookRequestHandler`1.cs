@@ -39,14 +39,14 @@ public abstract partial class GithubWebhookRequestHandler<TEvent, TCommand>(ILog
 
     private ValueTask<object?> HandleMappingFailureAsync(Result<TCommand>.Failure failure, Activity? activity)
     {
-        activity?.SetStatus(Status.Error);
+        activity?.SetStatus(ActivityStatusCode.Error);
 
         if (failure.Problem is Problem.Exceptional { Value: var exception })
         {
-            activity?.RecordException(exception);
+            activity?.AddException(exception);
             Log.FailureMappingEventToCommandException(logger, EventType, CommandType, exception);
         }
-        
+
         if (failure.Problem is Problem.Reason { Value: var reason })
         {
             Log.FailureMappingEventToCommand(logger, EventType, CommandType, reason);
@@ -61,10 +61,10 @@ public abstract partial class GithubWebhookRequestHandler<TEvent, TCommand>(ILog
     {
         [LoggerMessage(LogLevel.Information, "Handling webhook event for {EventType}")]
         public static partial void HandlingEvent(ILogger logger, Type eventType);
-        
+
         [LoggerMessage(LogLevel.Error, "Failure mapping event of type {EventType} to {CommandType} because {Reason}")]
-        public static partial void FailureMappingEventToCommand(ILogger logger, Type eventType, Type commandType, string reason);        
-        
+        public static partial void FailureMappingEventToCommand(ILogger logger, Type eventType, Type commandType, string reason);
+
         [LoggerMessage(LogLevel.Error, "Failure mapping event of type {EventType} to {CommandType} with Exception")]
         public static partial void FailureMappingEventToCommandException(ILogger logger, Type eventType, Type commandType, Exception ex);
     }

@@ -42,7 +42,7 @@ public sealed partial class KubernetesService(IKubernetes kubeClient, ILogger<Ku
         }
         catch (Exception ex)
         {
-            activity?.RecordException(ex);
+            activity?.AddException(ex);
             Log.DeploymentUpdateFailed(logger, ex);
             return new Problem.Exceptional(ex);
         }
