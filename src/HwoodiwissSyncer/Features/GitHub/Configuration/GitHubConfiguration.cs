@@ -1,8 +1,6 @@
-﻿using HwoodiwissSyncer.Configuration;
+﻿namespace HwoodiwissSyncer.Features.GitHub.Configuration;
 
-namespace HwoodiwissSyncer.Features.GitHub.Configuration;
-
-public sealed class GitHubConfiguration : INamedConfiguration
+public sealed class GitHubConfiguration
 {
     public static string SectionName => "Github";
 

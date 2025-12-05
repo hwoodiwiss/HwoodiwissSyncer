@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using k8s;
 using k8s.Models;
-using OpenTelemetry.Trace;
 
 namespace HwoodiwissSyncer.Features.Kubernetes.Services;
 

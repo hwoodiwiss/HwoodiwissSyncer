@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.RegularExpressions;
 using HwoodiwissSyncer.Features.GitHub.Commands;
 using HwoodiwissSyncer.Features.GitHub.Configuration;
 using HwoodiwissSyncer.Features.GitHub.Events;
@@ -19,7 +18,7 @@ public static class IServiceCollectionExtensions
     {
         services.Configure<GitHubConfiguration>(configuration.GetSection(GitHubConfiguration.SectionName));
         services.Configure<DeploymentConfiguration>(configuration);
-        
+
         services.PostConfigure<GitHubConfiguration>(config =>
         {
             var approxDecodedLength = config.AppPrivateKey.Length / 4 * 3; // Base64 is roughly 4 bytes per 3 chars
@@ -29,7 +28,7 @@ public static class IServiceCollectionExtensions
                 config.AppPrivateKey = Encoding.UTF8.GetString(buffer[..bytesWritten]);
             }
         });
-        
+
         services.AddSingleton<IGitHubSignatureValidator, GitHubSignatureValidator>();
         services.AddSingleton<IGitHubAppAuthProvider, GitHubAppAuthProvider>();
         services.AddScoped<IGitHubService, GitHubService>();
@@ -38,18 +37,17 @@ public static class IServiceCollectionExtensions
         services.AddHttpClient<IGitHubClient, GitHubClient>(client =>
         {
             client.BaseAddress = new Uri("https://api.github.com");
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("HwoodiwissSyncer", $"{ApplicationMetadata.Version}+{ApplicationMetadata.GitCommit}"));
         });
 
         return services;
     }
-    
+
     private static IServiceCollection AddGitHubWebhookHandlers(this IServiceCollection services)
     {
         services.AddGitHubEventHandler<PackagePublishedHandler, RegistryPackage.Published, UpdateDeploymentImageCommand, UpdateDeploymentImageCommandMapper>();
         return services;
     }
-    
+
     private static IServiceCollection AddGitHubEventHandler<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler,
         TEvent,

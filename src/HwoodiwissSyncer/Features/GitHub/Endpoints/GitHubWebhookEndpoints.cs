@@ -1,17 +1,17 @@
 ﻿using System.Text.Json;
-using HwoodiwissSyncer.Extensions;
+using Hwoodiwiss.Extensions.Hosting.Extensions;
 using HwoodiwissSyncer.Features.GitHub.Configuration;
 using HwoodiwissSyncer.Features.GitHub.Events;
+using HwoodiwissSyncer.Features.GitHub.Filters;
 using HwoodiwissSyncer.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using GitHubSecretValidatorFilter = HwoodiwissSyncer.Features.GitHub.Filters.GitHubSecretValidatorFilter;
 
 namespace HwoodiwissSyncer.Features.GitHub.Endpoints;
 
 public static partial class GitHubWebhookEndpoints
 {
-    public static IEndpointRouteBuilder MapGitHubEndpoints(this IEndpointRouteBuilder builder)
+    public static T MapGitHubEndpoints<T>(this T builder) where T : IEndpointRouteBuilder
     {
         var group = builder.MapGroup("/github");
 
