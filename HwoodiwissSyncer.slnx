@@ -1,0 +1,34 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".github/dependabot.yml" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="startrider.ps1" />
+    <File Path="startvscode.ps1" />
+  </Folder>
+  <Folder Name="/Solution Items/.github/">
+    <File Path=".github/dependabot.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/.workflows/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/dependabot-autoapprove.yml" />
+    <File Path=".github/workflows/publish-image.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/build/">
+    <File Path="build/build.ps1" />
+    <File Path="build/configure-env.ps1" />
+    <File Path="build/install-sdk.ps1" />
+    <File Path="build/publish-aot.ps1" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/HwoodiwissSyncer.UI/HwoodiwissSyncer.UI.csproj" />
+    <Project Path="src/HwoodiwissSyncer/HwoodiwissSyncer.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HwoodiwissSyncer.Tests/HwoodiwissSyncer.Tests.csproj" />
+  </Folder>
+</Solution>
